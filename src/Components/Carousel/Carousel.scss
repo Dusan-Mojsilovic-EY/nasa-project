@@ -1,0 +1,30 @@
+.Carousel {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .LeftButton,
+    .RightButton {
+        width: 10%;
+        margin: 0;
+    }
+    .CurouselPictures{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .Wrapper {
+            width: 250px;
+            height: 200px;
+            margin: 5px;
+            overflow: scroll;
+                img {
+                    width: 100%;
+                    height: 30%;
+                }
+                
+                
+            }
+        }
+    }
