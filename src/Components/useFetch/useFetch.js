@@ -5,8 +5,8 @@ import { useState, useEffect} from 'react';
 const useFetch = () => {
 
     var apiKey = "jbfndddBALH0QmDvRJIzbDOChFEdT9PoSH08CeUV";
-    var count = 20;
-    var url =`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`
+    var numberReq = 20;
+    var url =`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${numberReq}`
   
     const [data, setData] = useState(null);
 
@@ -16,7 +16,7 @@ const useFetch = () => {
             console.log(res.data)})
     },[])
 
-    return {data}
+    return {data, numberReq}
 }
 
 export default useFetch;
