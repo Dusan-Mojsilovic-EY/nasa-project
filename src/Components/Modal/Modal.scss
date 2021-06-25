@@ -1,4 +1,4 @@
-.Modal-Container {
+.modal-Container {
     position: fixed;
     top: 0;
     left: 0;
@@ -6,7 +6,7 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.6);  
    
-  .Modal-Main {
+  .modal-Main {
     position:fixed;
     text-align: center;
     background: white;
@@ -20,7 +20,7 @@
     font-size: 16px;
     border-radius: 15px;
     font-family: "Ubuntu";
-        .Modal-Information{
+        .modal-Information{
             h3 {
                 padding-bottom: 10px;
                 border-bottom: 1px gray solid;
@@ -50,7 +50,7 @@
     }
     @media only screen and (max-width: 600px) {
 
-        .Modal-Information{
+        .modal-Information{
             font-size: 10px;
             img {
                 width: 50%;

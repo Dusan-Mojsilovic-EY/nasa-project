@@ -1,11 +1,11 @@
-.Home {
+.home {
     width: 100%;
     height: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 
-    .ApplicationPart {
+    .applicationPart {
         margin-top: 20px;
         padding: 20px 0 20px 0;
         width: 100%;
@@ -13,7 +13,7 @@
         p {
             font-size: 16px;
         }
-        #AppButton {
+        #appButton {
             margin: 10px auto;
             text-align: center;
             background-color: #2a2a35;
