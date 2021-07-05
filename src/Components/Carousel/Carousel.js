@@ -35,16 +35,6 @@ const Carousel = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (offset === 0) {
-  //     setActivePage(0);
-  //   } else if (offset > 0 && offset < numberReq - count) {
-  //     setActivePage(1);
-  //   } else if (offset + count == numberReq) {
-  //     setActivePage(2);
-  //   }
-  // }, [offset, numberReq, count]);
-
   if (width < 900) {
     count = 2;
   }
@@ -87,12 +77,12 @@ const Carousel = () => {
         <div className="curouselPictures">
         
           {data &&
-            newData.map((e) => {
+            newData.map((elem) => {
               return (
-                <div className="wrapper" key={e.explanation}>
-                  <img src={e.hdurl} className="imageWrapper" alt="pic.jpg" />
-                  <h3 className="imageTittle">{e.title}</h3>
-                  <button id="text" onClick={() => showModal(e)}>
+                <div className="wrapper" key={elem.explanation}>
+                  <img src={elem.hdurl} className="imageWrapper" alt="pic.jpg" />
+                  <h3 className="imageTittle">{elem.title}</h3>
+                  <button id="text" onClick={() => showModal(elem)}>
                     TEXT
                   </button>
                 </div>
