@@ -4,12 +4,13 @@ import { numberReq, url } from '../../Constants';
 
 const useFetch = () => {
   
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     useEffect(()=> {
         axios.get(url)
-        .then(res => {setData(res.data)
-            console.log(res.data)})
+        .then(res => {
+            setData(res.data)
+        })
     },[])
 
     return {data, numberReq}

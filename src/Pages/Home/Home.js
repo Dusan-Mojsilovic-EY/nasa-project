@@ -1,11 +1,13 @@
 import React from "react";
 import "./Home.scss";
 import Carousel from "../../Components/Carousel/Carousel";
+import useFetch from "../../Components/useFetch/useFetch";
 
 const Home = () => {
+
   return (
     <div className="home">
-      <Carousel />
+      <Carousel /> 
       <div className="applicationPart">
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime cumque

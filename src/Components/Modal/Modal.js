@@ -9,7 +9,6 @@ const Modal = ({ modal, data, handleClose }) => {
     <div className="modal-Container">
       <section className="modal-Main">
         <div className="modal-Information">
-          <img src={data.hdurl} alt="pic.jpg" />
           <div className="modal-Info">
             <h3 className="modal-Details">{data.title}</h3>
             <p className="modal-Notes">{data.explanation}</p>

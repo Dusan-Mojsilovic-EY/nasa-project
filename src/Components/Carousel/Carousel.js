@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./Carousel.scss";
 import useFetch from "../useFetch/useFetch";
 import Modal from "../Modal/Modal";
-import { v4 as uuidv4 } from 'uuid'
+
 
 const Carousel = () => {
-  const { data, numberReq } = useFetch();
+  const { data, numberReq} = useFetch();
 
   const [offset, setOffset] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
-  const [activePage, setActivePage] = useState(0);
 
   const [modal, setModal] = useState(false);
   const [text, setText] = useState(null);
@@ -36,15 +35,15 @@ const Carousel = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (offset === 0) {
-      setActivePage(0);
-    } else if (offset > 0 && offset < numberReq - count) {
-      setActivePage(1);
-    } else if (offset + count == numberReq) {
-      setActivePage(2);
-    }
-  }, [offset, numberReq, count]);
+  // useEffect(() => {
+  //   if (offset === 0) {
+  //     setActivePage(0);
+  //   } else if (offset > 0 && offset < numberReq - count) {
+  //     setActivePage(1);
+  //   } else if (offset + count == numberReq) {
+  //     setActivePage(2);
+  //   }
+  // }, [offset, numberReq, count]);
 
   if (width < 900) {
     count = 2;
@@ -69,11 +68,13 @@ const Carousel = () => {
     }
   };
 
-  if (!data) {
-    return null;
-  }
+  let newData;
 
-  const newData = data.slice(offset, offset + count);
+  if (data.length === 0) {
+    return (<div className='loading'>Loading ...</div>)
+  } else {
+    newData = data.slice(offset, offset + count);
+  }
 
   return (
     <div className="container">
@@ -84,12 +85,12 @@ const Carousel = () => {
           </button>
         </div>
         <div className="curouselPictures">
+        
           {data &&
             newData.map((e) => {
               return (
-                <div className="wrapper" key={uuidv4()}>
+                <div className="wrapper" key={e.explanation}>
                   <img src={e.hdurl} className="imageWrapper" alt="pic.jpg" />
-
                   <h3 className="imageTittle">{e.title}</h3>
                   <button id="text" onClick={() => showModal(e)}>
                     TEXT
@@ -103,23 +104,6 @@ const Carousel = () => {
             ⇨
           </button>
         </div>
-      </div>
-      <div className="buttons">
-        {activePage === 0 ? (
-          <button className="active"></button>
-        ) : (
-          <button className="btnStyle"></button>
-        )}
-        {activePage === 1 ? (
-          <button className="active"></button>
-        ) : (
-          <button className="btnStyle"></button>
-        )}
-        {activePage === 2 ? (
-          <button className="active"></button>
-        ) : (
-          <button className="btnStyle"></button>
-        )}
       </div>
       <Modal 
         modal={modal} 
