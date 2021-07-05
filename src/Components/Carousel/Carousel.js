@@ -1,78 +1,107 @@
-import React, {useEffect, useState} from 'react';
-import './Carousel.scss';
+import React, { useEffect, useState } from "react";
+import "./Carousel.scss";
+import useFetch from "../useFetch/useFetch";
+import Modal from "../Modal/Modal";
 
-import useFetch from '../useFetch/useFetch';
 
 const Carousel = () => {
-   
-    const {data} = useFetch()
-    console.log(data);
+  const { data, numberReq} = useFetch();
 
-    const [offset, setOffset] = useState(0)
-    const [width, setWidth] = useState(window.innerWidth)
-    
-    let count = 4;
+  const [offset, setOffset] = useState(0);
+  const [width, setWidth] = useState(window.innerWidth);
 
-    useEffect(() => {
-        const listener = () => {
-            setWidth(window.innerWidth)
-        }
-        window.addEventListener("resize", listener)
-        
-        return () => {
-        window.removeEventListener("resize", listener)
-        }
-        
-    },[])
+  const [modal, setModal] = useState(false);
+  const [text, setText] = useState(null);
 
-    console.log(width)
+  const showModal = (tt) => {
+    setModal(!modal);
+    setText(tt);
+  };
 
-    if (width < 900 ) {
-        count = 2
-    } 
-    if (width < 600) {
-        count = 1
-     }
+  const closeModal = () => {
+    setModal(false);
+  };
 
-    const goBack = () => {
-        setOffset(offset - count)
-        }
-    
+  let count = 4;
 
-    const goForward = () => {
-        setOffset(offset + count)
+  useEffect(() => {
+    const listener = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", listener);
+
+    return () => {
+      window.removeEventListener("resize", listener);
+    };
+  }, []);
+
+  if (width < 900) {
+    count = 2;
+  }
+  if (width < 600) {
+    count = 1;
+  }
+
+  const goBack = () => {
+    if (offset > 0) {
+      setOffset(offset - count);
+    } else {
+      setOffset(offset);
     }
-    
-    if (!data) { return null}
+  };
 
-    const newData = data.slice(offset, offset + count)
-    
-  
+  const goForward = () => {
+    if (offset < numberReq - count) {
+      setOffset(offset + count);
+    } else {
+      setOffset(offset);
+    }
+  };
 
-    return(
-        <div className="Carousel">
-            <div className="LeftButton">
-                <button id="back" onClick={goBack}>⇦</button>
-            </div>
-            <div className="CurouselPictures">
-                {data && newData.map((e) => {
-                 return ( 
-                 <div className="Wrapper">
-                    <img src={e.hdurl} className="ImageWrapper"/>
-               
-                <h3 className="ImageTittle">{e.title}</h3>
-                <p className="ImageText">{e.explanation}</p>
-               
-                </div> 
-                )
-        })}
+  let newData;
+
+  if (data.length === 0) {
+    return (<div className='loading'>Loading ...</div>)
+  } else {
+    newData = data.slice(offset, offset + count);
+  }
+
+  return (
+    <div className="container">
+      <div className="carousel">
+        <div className="leftButton">
+          <button id="back" onClick={goBack}>
+            ⇦
+          </button>
         </div>
+        <div className="curouselPictures">
         
-            <div className="RightButton">
-                <button id="forward" onClick={goForward}>⇨</button>
-            </div>
+          {data &&
+            newData.map((elem) => {
+              return (
+                <div className="wrapper" key={elem.explanation}>
+                  <img src={elem.hdurl} className="imageWrapper" alt="pic.jpg" />
+                  <h3 className="imageTittle">{elem.title}</h3>
+                  <button id="text" onClick={() => showModal(elem)}>
+                    TEXT
+                  </button>
+                </div>
+              );
+            })}
         </div>
-    );
-}
- 
+        <div className="rightButton">
+          <button id="forward" onClick={goForward}>
+            ⇨
+          </button>
+        </div>
+      </div>
+      <Modal 
+        modal={modal} 
+        data={text} 
+        handleClose={closeModal}
+      />
+    </div>
+  );
+};
+
 export default Carousel;

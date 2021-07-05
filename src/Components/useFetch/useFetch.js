@@ -1,22 +1,19 @@
 import axios from 'axios';
-import React from 'react';
 import { useState, useEffect} from 'react';
+import { numberReq, url } from '../../Constants';
 
 const useFetch = () => {
-
-    var apiKey = "jbfndddBALH0QmDvRJIzbDOChFEdT9PoSH08CeUV";
-    var count = 20;
-    var url =`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`
   
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     useEffect(()=> {
         axios.get(url)
-        .then(res => {setData(res.data)
-            console.log(res.data)})
+        .then(res => {
+            setData(res.data)
+        })
     },[])
 
-    return {data}
+    return {data, numberReq}
 }
 
 export default useFetch;

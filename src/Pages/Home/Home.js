@@ -1,19 +1,24 @@
-import React from 'react';
-import './Home.scss';
-
-import Carousel from '../../Components/Carousel/Carousel';
-
+import React from "react";
+import "./Home.scss";
+import Carousel from "../../Components/Carousel/Carousel";
+import useFetch from "../../Components/useFetch/useFetch";
 
 const Home = () => {
-    return(
-        <div className="Home">
-          <Carousel />
-          <div className="ApplicationPart">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime cumque distinctio ducimus, repellendus similique eos sed corporis obcaecati. Soluta nesciunt fugiat quo expedita alias, in quas distinctio neque quam id?</p>
-              <button className="AppButton">Start Application Process</button>
-          </div>
-        </div>
-    );
-}
- 
-export default Home ;
+
+  return (
+    <div className="home">
+      <Carousel /> 
+      <div className="applicationPart">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime cumque
+          distinctio ducimus, repellendus similique eos sed corporis obcaecati.
+          Soluta nesciunt fugiat quo expedita alias, in quas distinctio neque
+          quam id?
+        </p>
+        <button id="appButton">Start Application Process</button>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
