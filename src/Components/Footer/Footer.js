@@ -1,14 +1,20 @@
 import './Footer.scss'
-import React from 'react';
-import {Link} from 'react-router-dom'
+import React, { useEffect } from 'react';
+import {Link, useHistory, withRouter} from 'react-router-dom'
 
-const Footer = () => {
+
+const Footer = ({match, location}) => {
+
     return(
     <div className="footer">
-      <Link to="/privacy" className="privacyLink">Privacy Notice</Link>
-      <Link to="/terms" className="termsLink">Terms and Conditions</Link>
-       </div>
+      { location.pathname === "/aplication" 
+        ? <p className="privacyLink">Privacy Notice</p> 
+        : <Link to="/privacy" className="privacyLink">Privacy Notice</Link>}
+      { location.pathname === "/aplication" 
+        ? <p className="termsLink">Terms and Conditions</p> 
+        :<Link to="/terms" className="termsLink">Terms and Conditions</Link>}
+    </div>
     );
 }
  
-export default Footer ;
+export default withRouter(Footer) ;
