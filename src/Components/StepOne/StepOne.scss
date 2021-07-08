@@ -1,0 +1,95 @@
+.wizardContainer {
+    width:100%;
+    height: 500px;
+    padding-top: 20px;
+
+    .inputContainer {
+        width: 90%;
+        margin: 0 auto;
+    
+        .inputHeader {
+            display: flex;
+            justify-content: space-between;
+
+            h4 {
+                text-align: left;
+                font-size: 18px;
+                width: 30%;
+        }
+    }
+        .firstInputFields {
+            width: 100%;
+            padding-top: 15px;
+
+            .mandatoryInputs {
+                text-align: left;
+
+                span {
+                    color: red;
+                }
+            }
+            .candidateTitle {
+                width: 100%;
+                display: flex;
+
+                select {
+                    width: 46%;
+                    margin: 10px 0;
+                    padding: 5px;
+                }
+            }
+
+            .candidateName {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+
+                input {
+                    width: 45%;
+                    margin: 10px 0;
+                    padding: 5px;
+                }
+            }
+
+            .dateOfBirth {
+                text-align: left;
+
+                    span {
+                      color: red;
+                }
+
+                input {
+                    width: 45%;
+                    margin: 10px 0;
+                    padding: 5px;
+                }
+                
+            }
+        }
+}
+}
+
+    .firstButtonsField {
+        margin: 0 auto;
+        display: flex;
+        padding: 20px 0;
+        justify-content: space-between;
+        width: 100%;
+        height: 40px;
+        background-color: hsl(0, 0%, 94%);
+
+        .next,
+        .back {
+            width: 20%;
+            margin: 0 auto;
+            font-size: 14px;
+            text-align: center;
+            background-color: #2a2a35;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s;
+            color: white;
+            padding: 10px;
+        }
+        }

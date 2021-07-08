@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import {Link, useHistory, withRouter} from 'react-router-dom'
 
 
-const Footer = ({match, location}) => {
+const Footer = ({location}) => {
 
     return(
     <div className="footer">
