@@ -1,0 +1,72 @@
+.aplication {
+    width: 80%;
+    margin: 0 auto;
+
+    .aplicationDescription {
+        width: 100%;
+        text-align: left;
+    
+
+        .aplicationHeader {
+            margin-top: 20px;
+            padding: 20px 20px 30px;
+        }
+        
+        .aplicatonText {
+            padding: 20px;
+
+            .privacy, 
+            .terms {
+                color: blue;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .aplicationProceed {
+        margin: 0 auto;
+        display: flex;
+        width: 100%;
+        height: 100px;
+        background-color: hsl(0, 0%, 94%);
+
+        .aplicationCheckbox {
+            padding: 20px;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            div {
+                text-align: left;
+            }
+        }
+
+        .aplicationButton {
+            width: 25%;
+            margin: auto;
+            
+            .aBtn {
+            margin: 0 auto;
+            font-size: 14px;
+            text-align: center;
+            background-color: #2a2a35;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.5s;
+            color: white;
+            padding: 10px;
+            } 
+
+            .aBtn:disabled {
+            cursor: default;
+            background-color: white;
+            color: black;
+            border: 1px solid;
+
+            }
+        }
+
+    }
+}

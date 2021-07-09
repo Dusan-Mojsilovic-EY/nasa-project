@@ -1,0 +1,17 @@
+.wizard {
+    width: 80%;
+    margin: 0 auto;
+
+    h3 {
+        text-align: left;
+        margin-top: 20px;
+        padding: 20px 20px 30px;
+    }
+
+    .progressBar {
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid rgba(0, 0, 0, .4);
+        font-size: 10px;
+    }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.scss";
 import Carousel from "../../Components/Carousel/Carousel";
-import useFetch from "../../Components/useFetch/useFetch";
+import {Link} from 'react-router-dom'
 
 const Home = () => {
 
@@ -15,7 +15,7 @@ const Home = () => {
           Soluta nesciunt fugiat quo expedita alias, in quas distinctio neque
           quam id?
         </p>
-        <button id="appButton">Start Application Process</button>
+        <Link to="/aplication" id="appButton">Start Application Process</Link>
       </div>
     </div>
   );
