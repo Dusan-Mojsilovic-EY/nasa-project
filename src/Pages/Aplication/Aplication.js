@@ -8,8 +8,8 @@ const Aplication = () => {
     const [isCheckedFirst, setIsCheckedFirst] = useState (false);
     const [isCheckedSecond, setIsCheckedSecond] = useState (false);
 
-    const handleOnChange = (something, someState) => {
-        something(!someState)
+    const handleOnChange = (changeState, someState) => {
+        changeState(!someState)
     }
 
     return(

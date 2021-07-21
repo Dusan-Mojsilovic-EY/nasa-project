@@ -21,6 +21,7 @@
 
             .emailInput {
                 text-align: left;
+                margin: 10px 0 20px 0;
                 p {
                  span {
                     color: red;
@@ -28,8 +29,17 @@
             }
                 input {
                     width: 45%;
-                    margin: 10px 0;
+                    margin-top: 10px;
                     padding: 5px 0 5px 5px;
+                }
+                div {
+                    width: 100%;
+                    text-align: left;
+                    margin: 0px 0 20px 0;
+                    padding: 0;
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: red;
                 }
             }
 
@@ -37,7 +47,7 @@
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
-
+              
                 .addressLine {
                     width: 45%;
                     justify-content: space-between;
@@ -49,7 +59,7 @@
                     }
                     input {
                         width: 100%;
-                        margin: 10px 0;
+                        margin-top: 10px;
                         padding: 5px 0 5px 5px;
                     }
                     }
@@ -59,6 +69,7 @@
             .homeCityInput {
                 width: 100%;
                 display: flex;
+                margin: 10px 0 20px 0;
                 justify-content: space-between;
 
                 .city,
@@ -72,7 +83,8 @@
                             color: red;
                         }
                     }
-                    input {
+                    input,
+                    select {
                         width: 100%;
                         margin: 10px 0;
                         padding: 5px 0 5px 5px;
@@ -84,6 +96,7 @@
                     width:100%;
                     display: flex;
                     flex-direction: column;
+                    margin: 10px 0 20px 0;
                     p {
                         width: 100%;
                         text-align: left;
@@ -94,8 +107,17 @@
                     input {
                         width: 45%;
                         text-align: left;
-                        margin: 10px 0;
+                        margin-top: 10px;
                         padding: 5px 0 5px 5px;
+                    }
+                    div {
+                        width: 100%;
+                        text-align: left;
+                        margin: 0px 0 20px 0;
+                        padding: 0;
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: red;
                     }
             }
     }

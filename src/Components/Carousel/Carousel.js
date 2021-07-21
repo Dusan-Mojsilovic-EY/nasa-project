@@ -5,11 +5,11 @@ import Modal from "../Modal/Modal";
 
 
 const Carousel = () => {
+
   const { data, numberReq} = useFetch();
 
   const [offset, setOffset] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
-
   const [modal, setModal] = useState(false);
   const [text, setText] = useState(null);
 
@@ -33,7 +33,7 @@ const Carousel = () => {
     return () => {
       window.removeEventListener("resize", listener);
     };
-  }, []);
+  }, [width]);
 
   if (width < 900) {
     count = 2;
