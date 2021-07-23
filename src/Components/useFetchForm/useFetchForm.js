@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { dataGet } from '../Axios/Axios';
 import { useState, useEffect} from 'react';
 // import { url2 } from '../../Constants';
 
@@ -8,7 +8,7 @@ const useFetchForm = (url) => {
     const [error, setError] = useState(null);
 
     useEffect(()=> {
-        axios.get(url)
+        dataGet(url)
         .then(res => {
             setDataStates(res.data)
         })

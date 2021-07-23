@@ -13,9 +13,7 @@ import DataContextProvider from './Context/DataContext';
 
 import {Route, Switch} from 'react-router-dom'
 
-function App() {
-  
-  return (
+const App = () => (
     <div className="App">
       <Header />
       <DataContextProvider>
@@ -29,7 +27,6 @@ function App() {
        </DataContextProvider>
       <Footer />
     </div>
-  );
-}
+)
 
 export default App;

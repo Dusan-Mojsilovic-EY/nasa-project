@@ -1,16 +1,15 @@
-import axios from 'axios';
 import { useState, useEffect} from 'react';
-import { numberReq, url } from '../../Constants';
+import { dataGet } from '../Axios/Axios';
 
-const useFetch = () => {
+const useFetch = (url) => {
   
-    const [data, setData] = useState([]);
+    const [dataFetch, setDataFetch] = useState([]);
     const [error, setError] = useState(null)
 
     useEffect(()=> {
-        axios.get(url)
+        dataGet(url)
         .then(res => {
-            setData(res.data)
+            setDataFetch(res.data)
             setError(null)
         })
         .catch(err => {
@@ -18,7 +17,7 @@ const useFetch = () => {
         })
     },[])
 
-    return {data, numberReq}
+    return {dataFetch, error}
 }
 
 export default useFetch;

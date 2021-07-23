@@ -1,23 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import './StepThree.scss';
+import Input from '../Inputs/Inputs';
 
-const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => {
+const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm, initialData}) => {
 
     const [inputs, setInputs] = useState({
-      doesHaveAgricultureSkills: data.doesHaveAgricultureSkills,
-      agricultureSkills: data.agricultureSkills,
-      doesHaveMetalworkSkills: data.doesHaveMetalworkSkills,
+      doesHaveAgricultureSkills: initialData.doesHaveAgricultureSkills,
+      agricultureSkills: initialData.agricultureSkills,
+      doesHaveMetalworkSkills: initialData.doesHaveMetalworkSkills,
       metalworkSkills: [],
-      isConvicted: data.isConvicted,
+      isConvicted: initialData.isConvicted,
       convictions: [
         {
          forWhat: "",
          convictionDate: "",
         }
       ],
-      doesFlyAirplane: data.doesFlyAirplane,
-      doesDriveCar: data.doesDriveCar,
-      doesDriveBicycle: data.doesDriveBicycle,
+      doesFlyAirplane: initialData.doesFlyAirplane,
+      doesDriveCar: initialData.doesDriveCar,
+      doesDriveBicycle: initialData.doesDriveBicycle,
     });
 
     const handleChange = (e) => {
@@ -62,8 +63,9 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
 
     const handleCheck = (e) => {
         let newArray = [...inputs.metalworkSkills, e.target.value];
-        if (inputs.metalworkSkills.includes(e.target.value)) {
-            newArray = newArray.filter((elem) => elem !==e.target.value)
+        let {value} = e.target;
+        if (inputs.metalworkSkills.includes(value)) {
+            newArray = newArray.filter((elem) => elem !== value)
         }
         setInputs((prevState)=>({
             ...prevState,
@@ -92,7 +94,7 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
           <div className="inputContainer">
               <div className="inputHeader">
                   <h4>Step 3</h4>
-                  <p>Mandatory fields are labeld with *</p>
+                  <p>Mandatory fields are labeled with *</p>
               </div>
           </div>
 
@@ -102,26 +104,25 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
             <p><span>*</span> Do you have any agriculture skills?</p>
             <div>
                 <div>
-                <input 
-                type="radio" 
-                id="doesHaveAgricultureSkillsYes"
-                value={true} 
-                name="doesHaveAgricultureSkills" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"doesHaveAgricultureSkillsYes"}
+                        value={true} 
+                        name={"doesHaveAgricultureSkills"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="doesHaveAgricultureSkillsYes">Yes</label>
                 </div>
                 <div>
-                <input 
-                type="radio" 
-                id="doesHaveAgricultureSkillsNo"
-                value={""}
-                name="doesHaveAgricultureSkills"   
-                onChange={handleChangeRadio}/>
-                <label htmlFor="doesHaveAgricultureSkillsYes">No</label>
+                <Input 
+                        type={"radio"}
+                        id={"doesHaveAgricultureSkillsNo"}
+                        value={""} 
+                        name={"doesHaveAgricultureSkills"} 
+                        onChange={handleChangeRadio}/>
+                <label htmlFor="doesHaveAgricultureSkillsNo">No</label>
                 </div>
             </div>
         </div>
-
         {inputs.doesHaveAgricultureSkills && <div className="skillsDescription">
             <p><span>*</span> What? Please describe</p>
             <div>
@@ -140,77 +141,77 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
             <p><span>*</span> Do you have any metalwork skills?</p>
             <div>
                 <div>
-                <input 
-                 type="radio" 
-                 id="skillsMetalWorkYes"
-                 value={true} 
-                 name="doesHaveMetalworkSkills" 
-                 onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"skillsMetalWorkYes"}
+                        value={true} 
+                        name={"doesHaveMetalworkSkills"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="skillsMetalWorkYes">Yes</label>
                 </div>
                 <div>
-                <input 
-                 type="radio" 
-                 id="skillsMetalWorkNo"
-                 value={""} 
-                 name="doesHaveMetalworkSkills" 
-                 onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"skillsMetalWorkNo"}
+                        value={""} 
+                        name={"doesHaveMetalworkSkills"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="skillsMetalWorkNo">No</label>
                 </div>
             </div>
             </div>
             </div>
-
         {inputs.doesHaveMetalworkSkills && <div className="metalWorkWhat">
             <p><span>*</span> What? Please select all that apply</p>
             <div className="selectMetalWork">
                     <div>
-                    <input 
-                    type="checkbox" 
-                    id="marking" 
-                    name="metalworkSkills"
-                    value={"marking"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <Input 
+                        type={"checkbox"}
+                        id={"marking"}
+                        value={"marking"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="marking">Marking</label>
                     </div>
                     <div>
-                    <input 
-                    type="checkbox" 
-                    id="cutting" 
-                    name="metalworkSkills"
-                    value={"cutting"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <Input 
+                        type={"checkbox"}
+                        id={"cutting"}
+                        value={"cutting"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="cutting">Cutting</label></div>
                     <div>
-                    <input 
-                    type="checkbox" 
-                    id="drilling" 
-                    name="metalworkSkills"
-                    value={"drilling"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <Input 
+                        type={"checkbox"}
+                        id={"drilling"}
+                        value={"drilling"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="drilling">Drilling</label></div>
-                    <div><input 
-                    type="checkbox" 
-                    id="cuttThreads" 
-                    name="metalworkSkills"
-                    value={"cuttThreads"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <div>
+                    <Input 
+                        type={"checkbox"}
+                        id={"cutThreads"}
+                        value={"cutThreads"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="cuttThreads">Cutting internal and external threads</label></div>
                     <div>
-                    <input 
-                    type="checkbox"
-                    id="filling" 
-                    name="metalworkSkills"
-                    value={"filling"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <Input 
+                        type={"checkbox"}
+                        id={"filling"}
+                        value={"filling"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="filling">Filling</label></div>
                     <div> 
-                    <input 
-                    type="checkbox" 
-                    id="joining" 
-                    name="metalworkSkills"
-                    value={"joining"}
-                    onChange={(e)=>handleCheck(e)}/>
+                    <Input 
+                        type={"checkbox"}
+                        id={"joining"}
+                        value={"joining"} 
+                        name={"metalworkSkills"} 
+                        onChange={handleCheck}/>
                     <label htmlFor="joining">Joining</label></div>
                </div>
             </div> 
@@ -218,25 +219,25 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
         
 
         <div className="skills">
-            <p><span>*</span> Have you aver been convicted?</p>
+            <p><span>*</span> Have you ever been convicted?</p>
             <div className="isConvicted">
                 <div>
-                <input  
-                 type="radio" 
-                 id="isConvictedYes"
-                 value={true} 
-                 name="isConvicted" 
-                 onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"isConvictedYes"}
+                        value={true} 
+                        name={"isConvicted"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="isConvictedYes">Yes</label>
                 </div>
                 <div>
-                <input 
-                type="radio" 
-                id="convictedNo" 
-                value={""} 
-                name="isConvicted" 
-                onChange={handleChangeRadio}/>
-                <label htmlFor="convictedNo" >No</label>
+                <Input 
+                        type={"radio"}
+                        id={"isConvictedNo"}
+                        value={""} 
+                        name={"isConvicted"} 
+                        onChange={handleChangeRadio}/>
+                <label htmlFor="isConvictedNo" >No</label>
                 </div>
             </div>
             </div>
@@ -250,7 +251,7 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
                         placeholder="Reason"
                         name="forWhat"
                         value={x.forWhat}
-                        key={inputs.convictions.forWhat + "129121"}
+                        key={`${inputs.convictions.forWhat}` + i}
                         onChange={(e)=>handleChangeConvictions(e, i)}/>
                      </div>
                 <div className="convictedWhen">
@@ -259,7 +260,7 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
                         type="date" 
                         name="convictionDate"
                         value={x.convictionDate}
-                        key={inputs.convictions.convictionDate + "129121"}
+                        key={`${inputs.convictions.convictionDate}` + i}
                         onChange={(e)=>handleChangeConvictions(e, i)}/>
                 </div>
                 <div className="date-cut">
@@ -273,20 +274,20 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
             <p><span>*</span> Do you know how to fly an airplane?</p>
             <div>
                 <div>
-                <input 
-                type="radio" 
-                id="flyYes"
-                value={true} 
-                name="doesFlyAirplane" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"flyYes"}
+                        value={true} 
+                        name={"doesFlyAirplane"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="flyYes">Yes</label></div>
                 <div>
-                <input
-                type="radio" 
-                id="flyNo"
-                value={""} 
-                name="doesFlyAirplane" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"flyNo"}
+                        value={""} 
+                        name={"doesFlyAirplane"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="flyNo">No</label>
                 </div>
             </div>
@@ -296,21 +297,21 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
             <p><span>*</span> Do you know how to drive a car?</p>
             <div>
                 <div>
-                <input  
-                type="radio" 
-                id="driveYes"
-                value={true} 
-                name="doesDriveCar" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"driveYes"}
+                        value={true} 
+                        name={"doesDriveCar"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="driveYes">Yes</label>
                 </div>
                 <div>
-                <input
-                type="radio" 
-                id="driveNo"
-                value={""} 
-                name="doesDriveCar" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"driveNo"}
+                        value={""} 
+                        name={"doesDriveCar"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="driveNo">No</label>
                 </div>
             </div>
@@ -320,21 +321,21 @@ const StepThree = ({nextStep, prevStep, data, setData, setStep, submitForm}) => 
             <p><span>*</span> Do you know how to drive a bicycle?</p>
             <div>
                 <div>
-                <input  
-                type="radio" 
-                id="bicycleYes"
-                value={true} 
-                name="doesDriveBicycle" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"bicycleYes"}
+                        value={true} 
+                        name={"doesDriveBicycle"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="bicycleYes">Yes</label>
                 </div>
                 <div>
-                <input 
-                type="radio" 
-                id="bicycleNo"
-                value={false} 
-                name="doesDriveBicycle" 
-                onChange={handleChangeRadio}/>
+                <Input 
+                        type={"radio"}
+                        id={"bicycleNo"}
+                        value={""} 
+                        name={"doesDriveBicycle"} 
+                        onChange={handleChangeRadio}/>
                 <label htmlFor="bicycleNo">No</label>
                 </div>
             </div>

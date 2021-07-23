@@ -2,14 +2,14 @@ import React, { createContext, useState } from "react";
  
 export const DataContext = createContext();
  
-const emptyData = {
+const initialData = {
   title: "",
   firstName: "",
   lastName: "",
   dateOfBirth: "",
 
   email: "",
-  residencyDuration: 0,
+  residencyDuration: "",
   address: {
       addressLine1: "",
       addressLine2: "",
@@ -37,10 +37,10 @@ const emptyData = {
 }
 const DataContextProvider = ({ children }) => {
 
-  const [data, setData] = useState(emptyData);
+  const [data, setData] = useState(initialData);
 
   return (
-    <DataContext.Provider value={{ data, setData, emptyData }}>
+    <DataContext.Provider value={{ data, setData, initialData }}>
       {children}
     </DataContext.Provider>
   );

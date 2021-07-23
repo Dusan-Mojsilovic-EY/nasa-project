@@ -1,6 +1,6 @@
 import './Footer.scss'
-import React, { useEffect } from 'react';
-import {Link, useHistory, withRouter} from 'react-router-dom'
+import React from 'react';
+import {Link, withRouter} from 'react-router-dom'
 
 
 const Footer = ({location}) => {

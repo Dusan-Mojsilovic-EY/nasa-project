@@ -10,11 +10,12 @@ import StepFour from '../../Components/StepFour/StepFour';
 
 import {DataContext} from '../../Context/DataContext';
 import { url3 } from '../../Constants';
+import { dataPost } from '../../Components/Axios/Axios';
 
 
 const Wizard = () => {
 
-    const {data, setData, emptyData} = useContext(DataContext)
+    const {data, setData, initialData} = useContext(DataContext)
 
     const [step, setStep] = useState(1)
     const [error, setError] = useState(null)
@@ -64,13 +65,13 @@ const Wizard = () => {
             aplicant.convictions[0].convictionDate = "0001-01-01"
         }
         const urlForPost = url3 + "/applicants";
-        axios.post(urlForPost, aplicant)
+        dataPost(urlForPost, aplicant)
         .then(response => {
             if (response.status < 200 && response.status > 400) {
                 throw new Error("Could not fetch the data!")
             } else {
                 setStep(4);
-                setData(emptyData)
+                setData(initialData)
             }})
         .catch((err) => {
         alert(err.message);
@@ -78,19 +79,22 @@ const Wizard = () => {
         })
     }
      
-    const switchSections = () => {
-        switch (step) {
-            case 1: 
-                return (<StepOne nextStep={nextStep} setData={setData} data={data}/>)
-            case 2:
-                return (<StepTwo nextStep={nextStep} prevStep={prevStep} setData={setData} data={data}/>)
-            case 3:
-                return (<StepThree nextStep={nextStep} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} setStep={setStep}/>)
-                case 4: return (<StepFour />)
-            default:
-               return (console.log('Successful'))
+    const switchSections = (num) => {
+       var wizardObj = {
+            1: function() {
+                return (<StepOne nextStep={nextStep} setData={setData} data={data} initialData={initialData}/>) },
+            2: function() {
+                return (<StepTwo nextStep={nextStep} prevStep={prevStep} setData={setData} data={data} initialData={initialData}/>)},
+            3: function() {
+                return (<StepThree nextStep={nextStep} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} initialData={initialData} setStep={setStep}/>)},
+            4: function() {
+                return (<StepFour />)},
+            "default": function() {
+               return (console.log('Default message'))}
+       }
+       return (wizardObj[num]() || wizardObj["default"])
         }
-    }
+    
 
     return(
         <div className="wizard">
@@ -104,7 +108,7 @@ const Wizard = () => {
             </div>
           </div>
           <div className="switch">
-              {switchSections()}
+              {switchSections(step)}
           </div>
         </div>
     );

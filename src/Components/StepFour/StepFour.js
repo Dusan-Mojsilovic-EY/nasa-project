@@ -1,14 +1,13 @@
 import './StepFour.scss';
 
-const StepFour = () => {
+import { successfullySentAplication, messageForAplicant } from '../../Constants';
 
-  return (
+const StepFour = () => (
     <div className="stepFour-container">
-      <p>Succesfully sent aplication <span>&#9786;</span>	
+      <p>{successfullySentAplication}<span>&#9786;</span>	
       </p>
-      <p>Let's go to MARS!</p>
+      <p>{messageForAplicant}</p>
     </div>
   );
-};
 
 export default StepFour;

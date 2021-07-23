@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import './StepOne.scss';
 
-const StepOne = ({nextStep, data, setData}) => {
+import { firstNameErrMessage1, firstNameErrMessage2, lastNameErrMessage1, lastNameErrMessage2 } from '../../Constants';
+import Input from '../Inputs/Inputs';
 
+const StepOne = ({nextStep, data, setData, initialData}) => {
+console.log(data);
   const [inputs, setInputs] = useState({
-    title: data.title,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    dateOfBirth: data.dateOfBirth,
+    title: initialData.title,
+    firstName: initialData.firstName,
+    lastName: initialData.lastName,
+    dateOfBirth: initialData.dateOfBirth,
   });
 
-  const [firstNameErr, setFirstNameErr] = useState({})
-  const [lastNameErr, setLastNameErr] = useState({})
+  const [errors, setErrors] = useState({})
+  
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -34,24 +37,39 @@ const StepOne = ({nextStep, data, setData}) => {
       let isValid = true;
 
       if (!inputs.firstName.trim()) {
-        firstNameErr.firstName = "Enter the valid name!";
+        firstNameErr.firstName = firstNameErrMessage1;
         isValid = false;
       } else if (!inputs.firstName.match(/^[A-Za-z]+$/)) {
-       firstNameErr.firstName = "First name has to be text!";
+       firstNameErr.firstName = firstNameErrMessage2
        isValid = false;
       }
      
       if (!inputs.lastName.trim()) {
-        lastNameErr.lastName = "Enter the valid last name!";
+        lastNameErr.lastName = lastNameErrMessage1;
         isValid = false;
       } else if (!inputs.lastName.match(/^[A-Za-z]+$/)) {
-        lastNameErr.lastName = "Last name has to be text!";
+        lastNameErr.lastName = lastNameErrMessage2;
         isValid = false;
       }
-      setFirstNameErr(firstNameErr)
-      setLastNameErr(lastNameErr)
+      setErrors((errors) => ({
+        ...errors,
+         firstName: firstNameErr,
+         lastName: lastNameErr,
+      }));
 
       return isValid;
+  }
+
+  const isDisabled = () => {
+    if (
+        inputs.title.length < 1 ||
+        inputs.firstName.lenght < 1 || 
+        inputs.lastName.length < 1 ||
+        inputs.dateOfBirth < 1 ) {
+          return true 
+        } else {
+          return false
+        }
   }
 
   useEffect(() => {
@@ -70,7 +88,7 @@ const StepOne = ({nextStep, data, setData}) => {
           <div className="inputContainer">
               <div className="inputHeader">
                   <h4>Step 1</h4>
-                  <p>Mandatory fields are labeld with *</p>
+                  <p>Mandatory fields are labeled with *</p>
               </div>
 
               <div className="firstInputFields">
@@ -88,25 +106,37 @@ const StepOne = ({nextStep, data, setData}) => {
                 </div>
 
                 <div className="candidateName">
-                   <div> <input type="text" placeholder="First Name" name="firstName" value={inputs.firstName} onChange={handleChange}/>
-                    {firstNameErr && <div>{firstNameErr?.firstName}</div>}</div>
-                   <div> <input type="text"  placeholder="Second Name" name="lastName" value={inputs.lastName} onChange={handleChange}/>
-                    {lastNameErr && <div>{lastNameErr?.lastName}</div>}</div>
+                   <div><Input 
+                        type={"text"} 
+                        placeholder={"First Name"}
+                        name={"firstName"} 
+                        value={inputs.firstName} 
+                        onChange={handleChange}/>
+                    {errors.firstName && <div>{errors.firstName?.firstName}</div>}</div>
+                   <div> <Input 
+                        type={"text"} 
+                        placeholder={"Last Name"}
+                        name={"lastName"} 
+                        value={inputs.lastName} 
+                        onChange={handleChange}/>
+                    {errors.lastName && <div>{errors.lastName?.lastName}</div>}</div>
 
                 </div>
                 <div className="dateOfBirth">
                     <p className="mandatoryDateOfBirth"><span>*</span> What is your date of birth?</p>
-                    <input type="date" name="dateOfBirth" value={inputs.dateOfBirth} onChange={handleChange}/>
+                    <Input 
+                        type={"date"} 
+                        placeholder={"Date of birth"}
+                        name={"dateOfBirth"} 
+                        value={inputs.dateOfBirth} 
+                        onChange={handleChange}/>
                 </div>
               </div>
           </div>
           <div className="firstButtonsField">
               <button className="back">Back</button>
               <button className="next" onClick={onSubmitForm}
-                      disabled={inputs.title.length < 1 ||
-                                inputs.firstName.lenght < 1 || 
-                                inputs.lastName.length < 1 ||
-                                inputs.dateOfBirth < 1}>Countinue</button>
+                      disabled={isDisabled()}>Countinue</button>
           </div>
         </div>
     );
