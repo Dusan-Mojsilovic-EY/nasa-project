@@ -1,6 +1,7 @@
-import './StepFour.scss';
+import React from "react";
+import "./StepFour.scss";
 
-import { successfullySentAplication, messageForAplicant } from '../../Constants';
+import { successfullySentAplication, messageForAplicant } from "../../Constants/Constants";
 
 const StepFour = () => (
     <div className="stepFour-container">

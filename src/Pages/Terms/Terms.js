@@ -1,5 +1,5 @@
-import React from 'react';
-import './Terms.scss';
+import React from "react";
+import "./Terms.scss";
 
 const Terms = () => (
         <div className="Terms">

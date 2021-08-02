@@ -1,99 +1,96 @@
-import React, {useContext, useState} from 'react';
-import axios from 'axios';
+/* eslint-disable react/display-name */
+import React, {useContext, useState} from "react";
+import "./Wizard.scss";
 
-import './Wizard.scss';
+import StepOne from "../../Components/StepOne/StepOne";
+import StepTwo from "../../Components/StepTwo/StepTwo";
+import StepThree from "../../Components/StepThree/StepThree";
+import StepFour from "../../Components/StepFour/StepFour";
 
-import StepOne from '../../Components/StepOne/StepOne'
-import StepTwo from '../../Components/StepTwo/StepTwo'
-import StepThree from '../../Components/StepThree/StepThree'
-import StepFour from '../../Components/StepFour/StepFour';
-
-import {DataContext} from '../../Context/DataContext';
-import { url3 } from '../../Constants';
-import { dataPost } from '../../Components/Axios/Axios';
+import {DataContext} from "../../Context/DataContext";
+import { urlPost } from "../../Constants/Constants";
+import { postData } from "../../DataFetch/DataFetch";
 
 
 const Wizard = () => {
 
-    const {data, setData, initialData} = useContext(DataContext)
+    const {data, setData, initialData} = useContext(DataContext);
 
-    const [step, setStep] = useState(1)
-    const [error, setError] = useState(null)
-  
+    const [step, setStep] = useState(1);
+ 
     const nextStep = () => {
-        setStep(step + 1)
-    }
+        setStep(step + 1);
+    };
 
     const prevStep = () => {
-        setStep(step - 1)
-    }
+        setStep(step - 1);
+    };
 
     const progressStep = () => {
         if (step === 1) {
             return (
                 <span>0</span>
-            )
+            );
         } else if ( step === 2) {
             return (
                 <span>1</span>
-            )
+            );
         } else if ( step === 3) {
             return (
                 <span>2</span>
-            )
+            );
         } else {
             return (
                 <span>3</span>
-            )
+            );
         }
-    }
+    };
 
     const submitForm = (e) => {
         e.preventDefault();
-        const aplicant = {...data}
+        const aplicant = {...data};
 
         if (data.doesHaveAgricultureSkills === "" || data.agricultureSkills === "") {
-            aplicant.agricultureSkills = "No agriculture skills."
+            aplicant.agricultureSkills = "No agriculture skills.";
         } 
 
         if (data.doesHaveMetalworkSkills === "" || data.metalworkSkills === "") {
-            aplicant.metalworkSkills = "No metal work skills."
+            aplicant.metalworkSkills = "No metal work skills.";
         }
 
         if (data.convictions[0].forWhat === "" || data.convictions[0].convictionDate === "") {
             aplicant.convictions[0].forWhat = "Nothing to report";
-            aplicant.convictions[0].convictionDate = "0001-01-01"
+            aplicant.convictions[0].convictionDate = "0001-01-01";
         }
-        const urlForPost = url3 + "/applicants";
-        dataPost(urlForPost, aplicant)
+        const urlForPost = urlPost + "/applicants";
+        postData(urlForPost, aplicant)
         .then(response => {
             if (response.status < 200 && response.status > 400) {
-                throw new Error("Could not fetch the data!")
+                throw new Error("Could not fetch the data!");
             } else {
                 setStep(4);
-                setData(initialData)
+                setData(initialData);
             }})
         .catch((err) => {
         alert(err.message);
-        setError(err)
-        })
-    }
+        });
+    };
      
     const switchSections = (num) => {
        var wizardObj = {
             1: function() {
-                return (<StepOne nextStep={nextStep} setData={setData} data={data} initialData={initialData}/>) },
+                return (<StepOne nextStep={nextStep} setData={setData} data={data} initialData={initialData} step={step}/>); },
             2: function() {
-                return (<StepTwo nextStep={nextStep} prevStep={prevStep} setData={setData} data={data} initialData={initialData}/>)},
+                return (<StepTwo nextStep={nextStep} prevStep={prevStep} setData={setData} data={data} initialData={initialData} step={step}/>);},
             3: function() {
-                return (<StepThree nextStep={nextStep} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} initialData={initialData} setStep={setStep}/>)},
+                return (<StepThree nextStep={nextStep} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} initialData={initialData} setStep={setStep} step={step}/>);},
             4: function() {
-                return (<StepFour />)},
+                return (<StepFour />);},
             "default": function() {
-               return (console.log('Default message'))}
-       }
-       return (wizardObj[num]() || wizardObj["default"])
-        }
+               return (console.log("Default message"));}
+       };
+       return (wizardObj[num]() || wizardObj["default"]);
+        };
     
 
     return(
@@ -112,6 +109,6 @@ const Wizard = () => {
           </div>
         </div>
     );
-}
+};
  
 export default Wizard ;

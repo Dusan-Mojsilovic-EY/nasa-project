@@ -1,5 +1,5 @@
-import React from 'react';
-import './PrivacyNotice.scss';
+import React from "react";
+import "./PrivacyNotice.scss";
 
 
 const PrivacyNotice = () => (

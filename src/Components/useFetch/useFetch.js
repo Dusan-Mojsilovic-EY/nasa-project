@@ -1,23 +1,23 @@
-import { useState, useEffect} from 'react';
-import { dataGet } from '../Axios/Axios';
+import { useState, useEffect} from "react";
+import { getData } from "../../DataFetch/DataFetch";
 
 const useFetch = (url) => {
   
     const [dataFetch, setDataFetch] = useState([]);
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null);
 
     useEffect(()=> {
-        dataGet(url)
+        getData(url)
         .then(res => {
-            setDataFetch(res.data)
-            setError(null)
+            setDataFetch(res.data);
+            setError(null);
         })
         .catch(err => {
-            setError(err.message)
-        })
-    },[])
+            setError(err.message);
+        });
+    },[]);
 
-    return {dataFetch, error}
-}
+    return {dataFetch, error};
+};
 
 export default useFetch;

@@ -1,39 +1,40 @@
-import React, {useState, useEffect} from 'react';
-import './StepTwo.scss';
-import { dataGet } from '../Axios/Axios';
-import useFetch from '../useFetch/useFetch';
-import Input from '../Inputs/Inputs';
+/* eslint-disable react/prop-types */
+import React, {useState, useEffect} from "react";
+import "./StepTwo.scss";
+import { getData } from "../../DataFetch/DataFetch";
+import useFetch from "../useFetch/useFetch";
+import Input from "../Inputs/Inputs";
 
-import { emailErrMessage1, emailErrMessage2, residencyDurationErrMessage, url2 } from '../../Constants';
+import { emailErrMessage1, emailErrMessage2, residencyDurationErrMessage, urlStates,
+stepNumber, mandatoryFields, addressLineOne, addressLineTwo, howManyYears, backButton, 
+countinueButton, postalCodeInfo, cityInfo, stateInfo} from "../../Constants/Constants";
+import { emailInfo } from "../../Constants/Constants";
 
-const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
+const StepTwo = ({prevStep, nextStep, setData, initialData, step}) => {
 
-  const {dataFetch} = useFetch(url2);
+
+  const {dataFetch} = useFetch(urlStates);
   
-  const [errors, setErrors] = useState({})
-  const [tla, setTla] = useState('');
+  const [errors, setErrors] = useState({});
+  const [tla, setTla] = useState("");
 
-  const [dataCities, setDataCities] = useState([])
-  const [dataPostalCodes, setDataPostalCodes] = useState([])
-  const [cityFetchSelected, setCityFetchSelected] = useState(null)
-    
-  const [errorsCitites, setErrorsCities] = useState(null)
-  const [errorsPostalCode, setErrorsPostalCode] = useState(null)
+  const [dataCities, setDataCities] = useState([]);
+  const [dataPostalCodes, setDataPostalCodes] = useState([]);
+  const [cityFetchSelected, setCityFetchSelected] = useState(null);
     
   useEffect(()=> {
         if (tla) {
-        dataGet(url2 + "/" + tla + "/cities")
+        getData(`${urlStates}/${tla}/cities`)
         .then(res => {
-            setDataCities(res.data)
-            setErrorsCities(null)
+            setDataCities(res.data);
         })
         .catch(err => {
-          setErrorsCities(err.message)
-      })
+          alert(err.message);
+      });
     }
-    },[tla])
+    },[tla]);
 
-    const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState({
       email: initialData.email,
       residencyDuration: initialData.residencyDuration,
       address: {
@@ -48,27 +49,26 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
     
     useEffect(()=> {
       if (cityFetchSelected) {
-     dataGet(url2 + "/" + tla + "/cities/" + inputs.address.city + "/postalcodes" )
+     getData(`${urlStates}/${tla}/cities/${inputs.address.city}/postalcodes`)
       .then(res => {
-          setDataPostalCodes(res.data)
-          setErrorsPostalCode(null)
+          setDataPostalCodes(res.data);
       })
       .catch(err => {
-        setErrorsPostalCode(err.message)
-    })
+        alert(err.message);
+    });
   }
-  },[inputs.address.city])
+  },[inputs.address.city]);
 
  
     const handleChange = (e) => {
-      const {name, value} = e.target
+      const {name, value} = e.target;
         if (name === "residencyDuration" || name ==="email") {
         e.preventDefault();
         setInputs((prevState) => ({
           ...prevState,
           [name]: value,
         })
-        )
+        );
       }  else {
           e.preventDefault();
           setInputs((prevStep) => ({
@@ -77,16 +77,16 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
                   ...inputs.address,
                   [name]: value
               }
-          }))
+          }));
           if (name === "city") {
-            const cityFetch = dataCities.find((city) => city.name === value && city.name)
-            cityFetch && setCityFetchSelected(cityFetch)
+            const cityFetch = dataCities.find((city) => city.name === value && city.name);
+            cityFetch && setCityFetchSelected(cityFetch);
           }
       }};
 
    const handleChangeAddressState = (e) => {
         e.preventDefault();
-        const {name, value} = e.target
+        const {name, value} = e.target;
           setInputs((prevStep) => ({
               ...prevStep,
               address: {
@@ -95,21 +95,20 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
                   city: "",
                   postalCode: "",
               }
-          }))
+          }));
           if (name === "state") {
             const findTla = dataFetch.find((state) => state.name === value);
             findTla && setTla(findTla.tla);
           }
-          
-      }
+      };
     
     const onSubmitForm = (e) => {
         e.preventDefault();
-        const isValid = formValidation()
+        const isValid = formValidation();
         if(isValid) {
-          nextStep(3)
+          nextStep(3);
         }
-      }
+      };
  
     const formValidation = () => {
         const emailErr = {};
@@ -125,7 +124,7 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
         }
 
         if(inputs.residencyDuration < 1) {
-          residencyDurationErr.residencyDuration = residencyDurationErrMessage
+          residencyDurationErr.residencyDuration = residencyDurationErrMessage;
           isValid = false;
         }
 
@@ -136,7 +135,7 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
        }));
   
         return isValid;
-    }
+    };
     
     const isDisabled = () => {
     if (!inputs.email ||
@@ -145,11 +144,11 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
         !inputs.address.state ||
        !inputs.address.postalCode ||
        !inputs.residencyDuration) {
-         return true
+         return true;
        } else {
-         return false
+         return false;
        }
-    }
+    };
 
     useEffect(() => {
           setData((data) => ({
@@ -165,18 +164,18 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
          <div className="inputContainer">
 
               <div className="inputHeader">
-                  <h4>Step 2</h4>
-                  <p>Mandatory fields are labeled with *</p>
+                  <h4>{stepNumber} {step}</h4>
+                  <p>{mandatoryFields}</p>
               </div>
 
             <div className="secondInputFields">
 
                 <div className="emailInput">
-                    <p><span>*</span> What's your email address?</p>
+                    <p><span>*</span>{emailInfo}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"Email"}
-                        name={"email"} 
+                        type="text" 
+                        placeholder="Email"
+                        name="email"
                         value={inputs.email} 
                         onChange={handleChange}/>
                    {errors.email && <div>{errors.email?.email}</div>}
@@ -184,20 +183,20 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
 
                 <div className="homeAddressInput">
                     <div className="addressLine">
-                    <p><span>*</span> Address Line 1</p>
+                    <p><span>*</span> {addressLineOne}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"Address"}
-                        name={"addressLine1"} 
+                        type="text" 
+                        placeholder="Address"
+                        name="addressLine1"
                         value={inputs.address.addressLine1} 
                         onChange={handleChange}/>
                     </div>
                     <div className="addressLine">
-                    <p>Address Line 2</p>
+                    <p>{addressLineTwo}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"Address"}
-                        name={"addressLine2"} 
+                        type="text" 
+                        placeholder="Address"
+                        name="addressLine2"
                         value={inputs.address.addressLine2} 
                         onChange={handleChange}/>
                     </div>
@@ -205,66 +204,65 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
 
                 <div className="homeCityInput">
                     <div className="state">
-                    <p><span>*</span> State</p>
+                    <p><span>*</span> {stateInfo}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"State"}
-                        name={"state"} 
-                        list={"state"} 
+                        type="text" 
+                        placeholder="State"
+                        name="state"
+                        list="state" 
                         value={inputs.address.state} 
                         onChange={handleChangeAddressState}/>
                     <datalist id={"state"}>
                     {dataFetch.map((state, index) => (
                     <option value={state.name || state.code} 
-                    key={`${state.name}`+ index} />
+                    key={`${state.name}${index}`} />
                       ))}
                     </datalist>
                     </div>
                     <div className="city">
-                    <p><span>*</span> City/Town</p>
+                    <p><span>*</span> {cityInfo}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"City"}
-                        name={"city"} 
-                        list={"city"} 
-                        disabled={inputs.address.state === "" ? true : false} 
+                        type="text" 
+                        placeholder="City"
+                        name="city" 
+                        list="city"
+                        disabled={inputs.address.state === ""} 
                         value={inputs.address.city} 
                         onChange={handleChange}/>
                      <datalist id={"city"}>
-                      { tla && dataCities.map((city, index) => {
-                        return (
+                      { tla && dataCities.map((city, index) => (
                           <option 
                           value={city.name || city.code} 
-                          key={`${city.name}`+ index}> </option>
+                          key={`${city.name}${index}`}> </option>
                         )
-                      })}
+                      )}
                   </datalist>
                     </div>
                     <div className="zip">
-                    <p><span>*</span> Postal Code</p>
+                    <p><span>*</span> {postalCodeInfo}</p>
                     <Input 
-                        type={"text"} 
-                        placeholder={"Zip"}
-                        name={"postalCode"} 
-                        list={"postalCode"} 
+                        type="text" 
+                        placeholder="Zip"
+                        name="postalCode" 
+                        list="postalCode"
                         disabled={inputs.address.city  === "" ? true : false} 
                         value={inputs.address.postalCode} 
                         onChange={handleChange}/>
-                    <datalist id={"postalCode"}>
+                    <datalist id="postalCode">
                     {dataPostalCodes.map((zip, index) => (
                     <option value={zip.name || zip.code} 
-                    key={`${zip.name}`+ index}  />
+                    key={`${zip.name}${index}`}  />
                       ))}
                     </datalist>
                 </div>
             </div>
 
             <div className="yearsOnAddress">
-                <p><span>*</span> How many years have you lived there?</p>
+                <p><span>*</span> {howManyYears}</p>
                 <Input 
-                        type={"number"} 
-                        placeholder={"Years"}
-                        name={"residencyDuration"}
+                        type="number"
+                        placeholder="Years"
+                        name="residencyDuration"
                         value={inputs.residencyDuration} 
                         onChange={handleChange}/>
                {errors.residencyDuration && <div>{errors.residencyDuration?.residencyDuration}</div>}
@@ -274,14 +272,14 @@ const StepTwo = ({prevStep, nextStep, data, setData, initialData}) => {
             </div>
 
           <div className="firstButtonsField">
-              <button className="back" onClick={prevStep}>Back</button>
+              <button className="back" onClick={prevStep}>{backButton}</button>
               <button className="next" onClick={onSubmitForm}
                disabled={
                 isDisabled()
-               }>Countinue</button>
+               }>{countinueButton}</button>
           </div>
         </div>
     );
-}
+};
  
 export default StepTwo ;

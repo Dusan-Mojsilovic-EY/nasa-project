@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 
 const Input = ({ type, placeholder, name, value, onChange, disabled, list, id }) => {

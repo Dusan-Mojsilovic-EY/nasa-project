@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.scss";
 import Carousel from "../../Components/Carousel/Carousel";
-import {Link} from 'react-router-dom'
+import {Link} from "react-router-dom";
 
 const Home = () => (
     <div className="home">

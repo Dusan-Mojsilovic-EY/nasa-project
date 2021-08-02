@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+import React from "react";
 import "./Modal.scss";
 
 const Modal = ({ modal, data, handleClose }) => {
