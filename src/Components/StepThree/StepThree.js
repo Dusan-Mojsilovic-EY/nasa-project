@@ -3,25 +3,27 @@
 import React, {useState, useEffect} from "react";
 import "./StepThree.scss";
 import Input from "../Inputs/Inputs";
-import { agricultureSkillsInfo, agricultureSkillsWhatInfo, backButton, bicycleInfo, convictedInfo, countinueButton, driveInfo, flyInfo, mandatoryFields, metalWorkSkillsInfo, metalWorkSkillsWhatInfo, stepNumber } from "../../Constants/Constants";
+import { agricultureSkillsInfo, agricultureSkillsWhatInfo, backButton, bicycleInfo, 
+    convictedInfo, countinueButton, driveInfo, flyInfo, mandatoryFields, 
+    metalWorkSkillsInfo, metalWorkSkillsWhatInfo, stepNumber } from "../../Constants/Constants";
 
-const StepThree = ({prevStep, setData, submitForm, initialData, step}) => {
+const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => {
 
     const [inputs, setInputs] = useState({
-      doesHaveAgricultureSkills: initialData.doesHaveAgricultureSkills,
-      agricultureSkills: initialData.agricultureSkills,
-      doesHaveMetalworkSkills: initialData.doesHaveMetalworkSkills,
+      doesHaveAgricultureSkills: data.doesHaveAgricultureSkills,
+      agricultureSkills: data.agricultureSkills,
+      doesHaveMetalworkSkills: data.doesHaveMetalworkSkills,
       metalworkSkills: [],
-      isConvicted: initialData.isConvicted,
+      isConvicted: data.isConvicted,
       convictions: [
         {
          forWhat: "",
          convictionDate: "",
         }
       ],
-      doesFlyAirplane: initialData.doesFlyAirplane,
-      doesDriveCar: initialData.doesDriveCar,
-      doesDriveBicycle: initialData.doesDriveBicycle,
+      doesFlyAirplane: data.doesFlyAirplane,
+      doesDriveCar: data.doesDriveCar,
+      doesDriveBicycle: data.doesDriveBicycle,
     });
 
     const metalWorkSkillsTypes = ["marking", "cutting", "drilling", "cutThreads", "filling" ,"joining"];
@@ -110,16 +112,24 @@ const StepThree = ({prevStep, setData, submitForm, initialData, step}) => {
         inputs.doesHaveMetalworkSkills === "" ||
         (inputs.doesHaveMetalworkSkills === true && !inputs.metalworkSkills) ||
         inputs.isConvicted === "" ||
-        (inputs.isConvicted === true && !inputs.convictions) ||
+        (inputs.isConvicted === true && !(inputs.convictions.every(checkConvictions))) ||
         inputs.doesDriveCar === "" ||
         inputs.doesFlyAirplane === "" ||
-        inputs.doesDriveBicycle === "" ) 
+        inputs.doesDriveBicycle === "" 
+        ) 
         { return true;
            } else {
              return false;
            }
         };
-    
+
+        const checkConvictions = (el) => {
+            if (el.forWhat !== "" && el.convictionDate !== "") {
+                return true;
+            } else {
+                return false;
+            }
+        };
 
     return(
       <div className="wizardContainer">
@@ -253,6 +263,8 @@ const StepThree = ({prevStep, setData, submitForm, initialData, step}) => {
                         <input 
                         type="date" 
                         name="convictionDate"
+                        min="1900-01-01"
+                        max={getRealDate()}
                         value={x.convictionDate}
                         onChange={(e)=>handleChangeConvictions(e, i)}/>
                 </div>

@@ -15,7 +15,7 @@ export let lastNameErrMessage2 = "Enter the valid last name!";
 
 export let emailErrMessage1 = "Email required!";
 export let emailErrMessage2 = "Email is invalid!";
-export let residencyDurationErrMessage = "Input number has to be greater then 0!";
+export let residencyDurationErrMessage = "Input number has to be greater then 0 and less then 100!";
 
 export let stepNumber = "Step";
 export let mandatoryFields = "Mandatory fields are labeled with *";

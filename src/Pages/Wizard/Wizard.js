@@ -75,15 +75,25 @@ const Wizard = () => {
         alert(err.message);
         });
     };
+
+    const getRealDate = () => {
+        let realDate = new Date();
+        let date = realDate.getDate();
+        let month = realDate.getMonth() + 1;
+        let year = realDate.getFullYear();
+
+        return `${year}-${month < 10 ? `0${month}` : `${month}`}-${date< 10 ? `0${date}` : `${date}`}`;
+    };
+    console.log(getRealDate());
      
     const switchSections = (num) => {
        var wizardObj = {
             1: function() {
-                return (<StepOne nextStep={nextStep} setData={setData} data={data} initialData={initialData} step={step}/>); },
+                return (<StepOne nextStep={nextStep} getRealDate={getRealDate} setData={setData} data={data} initialData={initialData} step={step}/>); },
             2: function() {
                 return (<StepTwo nextStep={nextStep} prevStep={prevStep} setData={setData} data={data} initialData={initialData} step={step}/>);},
             3: function() {
-                return (<StepThree nextStep={nextStep} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} initialData={initialData} setStep={setStep} step={step}/>);},
+                return (<StepThree nextStep={nextStep} getRealDate={getRealDate} submitForm={submitForm} prevStep={prevStep} setData={setData} data={data} initialData={initialData} setStep={setStep} step={step}/>);},
             4: function() {
                 return (<StepFour />);},
             "default": function() {

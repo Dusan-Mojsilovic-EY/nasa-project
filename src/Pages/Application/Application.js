@@ -1,10 +1,10 @@
 import React from "react";
-import "./Aplication.scss";
+import "./Application.scss";
 import { useState } from "react";
 import {Link} from "react-router-dom";
 import { agreeDocumentations, aplicationHeaderText, aplicationTextInfoOne, aplicationTextInfoTwo, readDocumentations } from "../../Constants/Constants";
 
-const Aplication = () => {
+const Application = () => {
 
     const [isCheckedFirst, setIsCheckedFirst] = useState (false);
     const [isCheckedSecond, setIsCheckedSecond] = useState (false);
@@ -45,4 +45,4 @@ const Aplication = () => {
     );
 };
  
-export default Aplication ;
+export default Application ;

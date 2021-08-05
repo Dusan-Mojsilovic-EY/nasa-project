@@ -8,13 +8,13 @@ stepNumber, mandatoryFields, titleAndNameInfo, dateOfBirthInfo, backButton, coun
 import Input from "../Inputs/Inputs";
 
 // eslint-disable-next-line react/prop-types
-const StepOne = ({nextStep, setData, initialData, step}) => {
+const StepOne = ({nextStep, setData, data, step, getRealDate}) => {
 
   const [inputs, setInputs] = useState({
-    title: initialData.title,
-    firstName: initialData.firstName,
-    lastName: initialData.lastName,
-    dateOfBirth: initialData.dateOfBirth,
+    title: data.title,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    dateOfBirth: data.dateOfBirth,
   });
 
   const [errors, setErrors] = useState({});
@@ -133,6 +133,8 @@ const StepOne = ({nextStep, setData, initialData, step}) => {
                         placeholder="Date of birth"
                         name="dateOfBirth"
                         value={inputs.dateOfBirth} 
+                        min="1900-01-01"
+                        max={getRealDate()}
                         onChange={handleChange}/>
                 </div>
               </div>

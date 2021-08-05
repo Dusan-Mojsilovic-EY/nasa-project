@@ -10,7 +10,7 @@ stepNumber, mandatoryFields, addressLineOne, addressLineTwo, howManyYears, backB
 countinueButton, postalCodeInfo, cityInfo, stateInfo} from "../../Constants/Constants";
 import { emailInfo } from "../../Constants/Constants";
 
-const StepTwo = ({prevStep, nextStep, setData, initialData, step}) => {
+const StepTwo = ({prevStep, nextStep, setData, data, step}) => {
 
 
   const {dataFetch} = useFetch(urlStates);
@@ -35,14 +35,14 @@ const StepTwo = ({prevStep, nextStep, setData, initialData, step}) => {
     },[tla]);
 
   const [inputs, setInputs] = useState({
-      email: initialData.email,
-      residencyDuration: initialData.residencyDuration,
+      email: data.email,
+      residencyDuration: data.residencyDuration,
       address: {
-            addressLine1: initialData.address.addressLine1,
-            addressLine2: initialData.address.addressLine2,
-            city: initialData.address.city,
-            state: initialData.address.state,
-            postalCode: initialData.address.postalCode,
+            addressLine1: data.address.addressLine1,
+            addressLine2: data.address.addressLine2,
+            city: data.address.city,
+            state: data.address.state,
+            postalCode: data.address.postalCode,
       },
        
     });
@@ -123,7 +123,7 @@ const StepTwo = ({prevStep, nextStep, setData, initialData, step}) => {
          isValid = false;
         }
 
-        if(inputs.residencyDuration < 1) {
+        if(inputs.residencyDuration < 1 || inputs.residencyDuration > 100) {
           residencyDurationErr.residencyDuration = residencyDurationErrMessage;
           isValid = false;
         }
@@ -261,10 +261,12 @@ const StepTwo = ({prevStep, nextStep, setData, initialData, step}) => {
                 <p><span>*</span> {howManyYears}</p>
                 <Input 
                         type="number"
+                        maxlength="2"
                         placeholder="Years"
                         name="residencyDuration"
                         value={inputs.residencyDuration} 
-                        onChange={handleChange}/>
+                        onChange={handleChange}
+                        />
                {errors.residencyDuration && <div>{errors.residencyDuration?.residencyDuration}</div>}
 
             </div>
