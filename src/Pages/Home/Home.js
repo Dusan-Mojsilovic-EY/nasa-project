@@ -1,11 +1,9 @@
 import React from "react";
 import "./Home.scss";
 import Carousel from "../../Components/Carousel/Carousel";
-import {Link} from 'react-router-dom'
+import {Link} from "react-router-dom";
 
-const Home = () => {
-
-  return (
+const Home = () => (
     <div className="home">
       <Carousel /> 
       <div className="applicationPart">
@@ -19,6 +17,5 @@ const Home = () => {
       </div>
     </div>
   );
-};
-
+  
 export default Home;

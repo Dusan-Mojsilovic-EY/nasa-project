@@ -1,19 +1,23 @@
-import axios from 'axios';
-import { useState, useEffect} from 'react';
-import { numberReq, url } from '../../Constants';
+import { useState, useEffect} from "react";
+import { getData } from "../../DataFetch/DataFetch";
 
-const useFetch = () => {
+const useFetch = (url) => {
   
-    const [data, setData] = useState([]);
+    const [dataFetch, setDataFetch] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(()=> {
-        axios.get(url)
+        getData(url)
         .then(res => {
-            setData(res.data)
+            setDataFetch(res.data);
+            setError(null);
         })
-    },[])
+        .catch(err => {
+            setError(err.message);
+        });
+    },[]);
 
-    return {data, numberReq}
-}
+    return {dataFetch, error};
+};
 
 export default useFetch;

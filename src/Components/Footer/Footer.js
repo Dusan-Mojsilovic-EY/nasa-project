@@ -1,11 +1,9 @@
-import './Footer.scss'
-import React, { useEffect } from 'react';
-import {Link, useHistory, withRouter} from 'react-router-dom'
+/* eslint-disable react/prop-types */
+import "./Footer.scss";
+import React from "react";
+import {Link, withRouter} from "react-router-dom";
 
-
-const Footer = ({location}) => {
-
-    return(
+const Footer = ({location}) => (
     <div className="footer">
       { location.pathname === "/aplication" 
         ? <p className="privacyLink">Privacy Notice</p> 
@@ -15,6 +13,6 @@ const Footer = ({location}) => {
         :<Link to="/terms" className="termsLink">Terms and Conditions</Link>}
     </div>
     );
-}
+
  
 export default withRouter(Footer) ;

@@ -19,7 +19,7 @@
     }
         .firstInputFields {
             width: 100%;
-            padding-top: 15px;
+            padding-top: 25px;
 
             .mandatoryInputs {
                 text-align: left;
@@ -31,11 +31,11 @@
             .candidateTitle {
                 width: 100%;
                 display: flex;
-
+                margin: 10px 0 20px 0;
                 select {
                     width: 46%;
-                    margin: 10px 0;
                     padding: 5px;
+                  
                 }
             }
 
@@ -43,31 +43,45 @@
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
-
-                input {
+                flex-wrap: wrap;
+                margin-top: 10px;
+                div {
                     width: 45%;
-                    margin: 10px 0;
+                    margin-top: 10px 0;
+                  input,
+                     {
+                    width: 100%;
                     padding: 5px;
                 }
+                  div {
+                    width: 100%;
+                    text-align: left;
+                    margin: 0px 0 20px 0;
+                    padding: 0;
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: red;
+                }
+            }
             }
 
             .dateOfBirth {
                 text-align: left;
-
+                margin: 10px 0 20px 0;
                     span {
                       color: red;
                 }
 
                 input {
                     width: 45%;
-                    margin: 10px 0;
+                    margin-top: 10px;
                     padding: 5px;
                 }
                 
             }
         }
 }
-}
+
 
     .firstButtonsField {
         margin: 0 auto;
@@ -91,5 +105,14 @@
             transition: all 0.5s;
             color: white;
             padding: 10px;
+            text-decoration: none;
+
+            
         }
+        .next:disabled {
+            cursor: default;
+            background-color: white;
+            color: black;
+            border: 1px solid;
         }
+    }}
