@@ -84,7 +84,6 @@ const Wizard = () => {
 
         return `${year}-${month < 10 ? `0${month}` : `${month}`}-${date< 10 ? `0${date}` : `${date}`}`;
     };
-    console.log(getRealDate());
      
     const switchSections = (num) => {
        var wizardObj = {
