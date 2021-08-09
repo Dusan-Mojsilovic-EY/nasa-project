@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { DataContext } from "./DataContext";
+import dataReducer from "./DataReducer";
 // import dataReducer from "./DataReducer";
 
 const initialData = {
@@ -41,8 +42,10 @@ const DataState = (props) => {
 
     const [data, setData] = useState(initialData);
 
+    const [state, dispatch] = useReducer(dataReducer, initialData);
+
     return (
-        <DataContext.Provider value={{ data, setData, initialData }}>
+        <DataContext.Provider value={{ data, setData, state, dispatch, initialData }}>
             {props.children}
         </DataContext.Provider>
     );

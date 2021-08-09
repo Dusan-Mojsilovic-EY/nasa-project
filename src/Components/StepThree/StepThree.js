@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useReducer} from "react";
 import "./StepThree.scss";
 import Input from "../Inputs/Inputs";
 import { agricultureSkillsInfo, agricultureSkillsWhatInfo, backButton, bicycleInfo, 
@@ -9,75 +9,86 @@ import { agricultureSkillsInfo, agricultureSkillsWhatInfo, backButton, bicycleIn
 
 const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => {
 
-    const [inputs, setInputs] = useState({
-      doesHaveAgricultureSkills: data.doesHaveAgricultureSkills,
-      agricultureSkills: data.agricultureSkills,
-      doesHaveMetalworkSkills: data.doesHaveMetalworkSkills,
-      metalworkSkills: [],
-      isConvicted: data.isConvicted,
-      convictions: [
-        {
-         forWhat: "",
-         convictionDate: "",
-        }
-      ],
-      doesFlyAirplane: data.doesFlyAirplane,
-      doesDriveCar: data.doesDriveCar,
-      doesDriveBicycle: data.doesDriveBicycle,
-    });
+    const reducerStepThree = (state, action) => {
+        switch (action.type) {
+            case "agricultureSkills":
+                return {
+                    ...state,
+                    [action.type]: action.payload.target.value,
+                };
+            case "metalworkSkills":
+            case "convictions":
+                return {
+                    ...state,
+                    [action.type]: action.payload,
+                  };
+            case "doesHaveAgricultureSkills":
+            case "doesHaveMetalworkSkills":
+            case "isConvicted":
+            case "doesFlyAirplane":
+            case "doesDriveCar":
+            case "doesDriveBicycle":
+                return {
+                    ...state,
+                    [action.type]: !!action.payload.target.value,
+                  };
+            case "forWhat":
+            case "convictionDate":
+                return {
+                    ...state,
+                      convictions: {
+                            ...state.convictions,
+                            [action.type]: action.payload,
+                      }
+                    };
+            default:
+                throw new Error("Try again.");
+                    }
+                  };
+
+    const [state, dispatch] = useReducer(reducerStepThree, data);
+
 
     const metalWorkSkillsTypes = ["marking", "cutting", "drilling", "cutThreads", "filling" ,"joining"];
 
-    const handleChange = (e) => {
-        e.preventDefault();
-        setInputs((prevState) => ({
-          ...prevState,
-          [e.target.name]: e.target.value,
-        }));
-      };
-
-    const handleChangeRadio = (e) => {
-        setInputs((prevState) => ({
-            ...prevState,
-            [e.target.name]: !!e.target.value
-                }));
-    };
-
     const handleChangeConvictions = (e, i) => {
         const {name, value} = e.target;
-        const list = [...inputs.convictions];
+        const list = [...state.convictions];
+        console.log(list);
         list[i][name] = value;
-        setInputs((prevState) => ({
-            ...prevState,
-            convictions: list,
-        }));
-    };
+            dispatch({
+                type: "convictions",
+                payload: list
+            });
+        };
 
     const handleRemoveClick = (i) => {
-        const list = [...inputs.convictions];
+        const list = [...state.convictions];
         list.splice(i, 1);
-        setInputs((prevState) => ({
-            ...prevState,
-            convictions: list,
-        }));
+        dispatch({
+            type: "convictions",
+            payload: list
+        });
     };
 
     const handleAddClick = () => {
-        setInputs((prevState) => ({
-            ...prevState,
-            convictions: [...inputs.convictions, {forWhat: "", convictionDate: ""}]}));
+        dispatch({
+            type: "convictions",
+            payload: [...state.convictions, {forWhat: "", convictionDate: ""}]});
+
     };
 
     const handleCheck = (e) => {
-        let newArray = [...inputs.metalworkSkills, e.target.value];
+        let newArray = [...state.metalworkSkills, e.target.value];
         let {value} = e.target;
-        if (inputs.metalworkSkills.includes(value)) {
+        if (state.metalworkSkills.includes(value)) {
             newArray = newArray.filter((elem) => elem !== value);
         }
-        setInputs((prevState)=>({
-            ...prevState,
-            metalworkSkills: newArray,
-        }));
+        dispatch({
+            type: "metalworkSkills",
+            payload: newArray,
+        });
+    
     };
     
     const createMetalWorkLabel = (e) => {
@@ -89,33 +100,33 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
     }
 };
     useEffect(() => {
-        const stringMetalWorkSkills = inputs.metalworkSkills.toString();
+        const stringMetalWorkSkills = state.metalworkSkills.toString();
           setData((data) => ({
             ...data,
-            doesHaveAgricultureSkills: inputs.doesHaveAgricultureSkills,
-            agricultureSkills: inputs.agricultureSkills,
-            doesHaveMetalworkSkills: inputs.doesHaveMetalworkSkills,
+            doesHaveAgricultureSkills: state.doesHaveAgricultureSkills,
+            agricultureSkills: state.agricultureSkills,
+            doesHaveMetalworkSkills: state.doesHaveMetalworkSkills,
             metalworkSkills: stringMetalWorkSkills,
-            isConvicted: inputs.isConvicted,
-            convictions: inputs.convictions,
-            doesFlyAirplane: inputs.doesFlyAirplane,
-            doesDriveCar: inputs.doesDriveCar,
-            doesDriveBicycle: inputs.doesDriveBicycle,
+            isConvicted: state.isConvicted,
+            convictions: state.convictions,
+            doesFlyAirplane: state.doesFlyAirplane,
+            doesDriveCar: state.doesDriveCar,
+            doesDriveBicycle: state.doesDriveBicycle,
           }));
         
-      }, [inputs]);
+      }, [state]);
 
       const isDisabled = () => {
         if ( 
-        inputs.doesHaveAgricultureSkills === "" ||
-        (inputs.doesHaveAgricultureSkills === true && !inputs.agricultureSkills) ||
-        inputs.doesHaveMetalworkSkills === "" ||
-        (inputs.doesHaveMetalworkSkills === true && !inputs.metalworkSkills) ||
-        inputs.isConvicted === "" ||
-        (inputs.isConvicted === true && !(inputs.convictions.every(checkConvictions))) ||
-        inputs.doesDriveCar === "" ||
-        inputs.doesFlyAirplane === "" ||
-        inputs.doesDriveBicycle === "" 
+        state.doesHaveAgricultureSkills === "" ||
+        (state.doesHaveAgricultureSkills === true && !state.agricultureSkills) ||
+        state.doesHaveMetalworkSkills === "" ||
+        (state.doesHaveMetalworkSkills === true && !state.metalworkSkills) ||
+        state.isConvicted === "" ||
+        (state.isConvicted === true && !(state.convictions.every(checkConvictions))) ||
+        state.doesDriveCar === "" ||
+        state.doesFlyAirplane === "" ||
+        state.doesDriveBicycle === "" 
         ) 
         { return true;
            } else {
@@ -130,6 +141,8 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                 return false;
             }
         };
+
+    console.log(state);
 
     return(
       <div className="wizardContainer">
@@ -151,7 +164,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="doesHaveAgricultureSkillsYes"
                         value={true} 
                         name="doesHaveAgricultureSkills"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesHaveAgricultureSkills",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="doesHaveAgricultureSkillsYes">Yes</label>
                 </div>
                 <div>
@@ -160,12 +178,17 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="doesHaveAgricultureSkillsNo"
                         value="" 
                         name="doesHaveAgricultureSkills"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesHaveAgricultureSkills",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="doesHaveAgricultureSkillsNo">No</label>
                 </div>
             </div>
         </div>
-        {inputs.doesHaveAgricultureSkills && <div className="skillsDescription">
+        {state.doesHaveAgricultureSkills && <div className="skillsDescription">
             <p><span>*</span> {agricultureSkillsWhatInfo}</p>
             <div>
                 <textarea 
@@ -173,8 +196,13 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                 rows="6" 
                 cols="80" 
                 name="agricultureSkills"
-                value={inputs.agricultureSkills}
-                onChange={handleChange}/>
+                value={state.agricultureSkills}
+                onChange={(event) => {
+                    dispatch({
+                        type: "agricultureSkills",
+                        payload: event
+                    });
+                }}/>
             </div>
         </div>}
 
@@ -188,7 +216,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="skillsMetalWorkYes"
                         value={true} 
                         name="doesHaveMetalworkSkills"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesHaveMetalworkSkills",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="skillsMetalWorkYes">Yes</label>
                 </div>
                 <div>
@@ -197,13 +230,18 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="skillsMetalWorkNo"
                         value=""
                         name="doesHaveMetalworkSkills"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesHaveMetalworkSkills",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="skillsMetalWorkNo">No</label>
                 </div>
             </div>
             </div>
             </div>
-        {inputs.doesHaveMetalworkSkills && <div className="metalWorkWhat">
+        {state.doesHaveMetalworkSkills && <div className="metalWorkWhat">
             <p><span>*</span> {metalWorkSkillsWhatInfo}</p>
             <div className="selectMetalWork">
                         {metalWorkSkillsTypes.map((elem, index) => {
@@ -232,7 +270,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="isConvictedYes"
                         value={true} 
                         name="isConvicted"
-                        onChange={handleChangeRadio}/>
+                         onChange={(event) => {
+                                dispatch({
+                                    type: "isConvicted",
+                                    payload: event
+                                });
+                            }}/>
                 <label htmlFor="isConvictedYes">Yes</label>
                 </div>
                 <div>
@@ -241,12 +284,17 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="isConvictedNo"
                         value="" 
                         name="isConvicted"
-                        onChange={handleChangeRadio}/>
+                         onChange={(event) => {
+                                dispatch({
+                                    type: "isConvicted",
+                                    payload: event
+                                });
+                            }}/>
                 <label htmlFor="isConvictedNo" >No</label>
                 </div>
             </div>
             </div>
-            {inputs.isConvicted && inputs.convictions.map((x, i) => {     
+            {state.isConvicted && state.convictions.map((x, i) => {     
             return (
                 <div className="convicted" key={`key-${i}`}>
                     <div className="convictedWhat">
@@ -269,8 +317,8 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         onChange={(e)=>handleChangeConvictions(e, i)}/>
                 </div>
                 <div className="date-cut">
-                    {inputs.convictions.length !== 1 && <button onClick={()=> handleRemoveClick(i)}>&#8854;</button>}
-                    {inputs.convictions.length - 1 === i && <button onClick={handleAddClick}>&#8853;</button>}
+                    {state.convictions.length !== 1 && <button onClick={()=> handleRemoveClick(i)}>&#8854;</button>}
+                    {state.convictions.length - 1 === i && <button onClick={handleAddClick}>&#8853;</button>}
                 </div>
                 </div> );
             })}
@@ -284,7 +332,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="flyYes"
                         value={true} 
                         name="doesFlyAirplane"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesFlyAirplane",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="flyYes">Yes</label></div>
                 <div>
                 <Input 
@@ -292,7 +345,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="flyNo"
                         value=""
                         name="doesFlyAirplane"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesFlyAirplane",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="flyNo">No</label>
                 </div>
             </div>
@@ -307,7 +365,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="driveYes"
                         value={true} 
                         name="doesDriveCar"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesDriveCar",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="driveYes">Yes</label>
                 </div>
                 <div>
@@ -316,7 +379,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="driveNo"
                         value="" 
                         name="doesDriveCar" 
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesDriveCar",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="driveNo">No</label>
                 </div>
             </div>
@@ -331,7 +399,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="bicycleYes"
                         value={true} 
                         name="doesDriveBicycle"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesDriveBicycle",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="bicycleYes">Yes</label>
                 </div>
                 <div>
@@ -340,7 +413,12 @@ const StepThree = ({prevStep, setData, data, submitForm, step, getRealDate}) => 
                         id="bicycleNo"
                         value=""
                         name="doesDriveBicycle"
-                        onChange={handleChangeRadio}/>
+                        onChange={(event) => {
+                            dispatch({
+                                type: "doesDriveBicycle",
+                                payload: event
+                            });
+                        }}/>
                 <label htmlFor="bicycleNo">No</label>
                 </div>
             </div>
